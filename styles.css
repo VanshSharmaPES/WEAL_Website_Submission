@@ -20,14 +20,15 @@
   --radius:    12px;
   --radius-sm: 8px;
   --shadow:    0 8px 30px rgba(0,0,0,.35);
-  --font:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:   'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --transition: .25s cubic-bezier(.4,0,.2,1);
 }
 
 html{font-size:15px;scroll-behavior:smooth}
 
 body{
-  font-family:var(--font);
+  font-family:var(--font-body);
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
@@ -36,24 +37,44 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
+/* subtle grain overlay for texture */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:9999;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 a{color:var(--accent);text-decoration:none}
 small{color:var(--text-muted);font-weight:400}
 
 /* ---------- HEADER ---------- */
 .header{
   text-align:center;
-  padding:2.5rem 1rem 1.5rem;
+  padding:2.8rem 1rem 1.8rem;
   background:linear-gradient(180deg,rgba(232,67,147,.06) 0%,transparent 100%);
+  position:relative;
 }
-.header__brand{display:flex;align-items:center;justify-content:center;gap:.65rem}
-.header__logo svg{width:36px;height:36px}
-.header__title{font-size:1.65rem;font-weight:800;letter-spacing:-.02em}
+.header::after{
+  content:'';
+  display:block;
+  width:60px;height:3px;
+  margin:1rem auto 0;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+}
+.header__brand{display:flex;align-items:center;justify-content:center;gap:.7rem}
+.header__logo svg{width:38px;height:38px}
+.header__title{font-family:var(--font-display);font-size:1.75rem;font-weight:800;letter-spacing:-.02em}
 .header__title span{
   background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 .header__tagline{
-  margin-top:.35rem;font-size:.85rem;font-weight:500;letter-spacing:.15em;
+  margin-top:.45rem;font-size:.82rem;font-weight:600;letter-spacing:.2em;
   color:var(--text-muted);text-transform:uppercase;
 }
 
@@ -76,6 +97,7 @@ small{color:var(--text-muted);font-weight:400}
 }
 .card:hover{border-color:rgba(232,67,147,.25)}
 .card__heading{
+  font-family:var(--font-display);
   font-size:1.15rem;font-weight:700;
   display:flex;align-items:center;gap:.45rem;
   margin-bottom:1.25rem;
@@ -93,7 +115,7 @@ small{color:var(--text-muted);font-weight:400}
 .form-group label{font-size:.82rem;font-weight:600;color:var(--text-muted)}
 
 input,select,textarea{
-  font-family:var(--font);
+  font-family:var(--font-body);
   font-size:.92rem;
   padding:.55rem .75rem;
   background:var(--surface-2);
@@ -116,7 +138,7 @@ select{cursor:pointer}
 
 /* ---------- BUTTONS ---------- */
 .btn{
-  font-family:var(--font);
+  font-family:var(--font-display);
   font-size:.88rem;font-weight:600;
   padding:.6rem 1.4rem;
   border:none;border-radius:var(--radius-sm);
@@ -160,15 +182,18 @@ select{cursor:pointer}
 }
 .stat{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);padding:1rem;
+  border-radius:var(--radius);padding:1.1rem;
   text-align:center;
   transition:border-color var(--transition),transform var(--transition);
+  backdrop-filter:blur(8px);
+  background:rgba(22,27,34,.85);
 }
 .stat:hover{border-color:var(--accent);transform:translateY(-2px)}
 .stat__value{
-  display:block;font-size:1.5rem;font-weight:800;
+  display:block;font-family:var(--font-display);font-size:1.55rem;font-weight:800;
   background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 .stat__label{font-size:.72rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
 
@@ -311,3 +336,12 @@ tbody tr:hover{background:rgba(232,67,147,.04)}
   100%{background:transparent}
 }
 .row-highlight{animation:rowHighlight 1.2s ease-out}
+
+/* ---------- ENTRANCE ANIMATIONS ---------- */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.form-card{ animation:fadeUp .5s ease-out both }
+.stats-bar{ animation:fadeUp .5s ease-out .1s both }
+.table-card{ animation:fadeUp .5s ease-out .2s both }
