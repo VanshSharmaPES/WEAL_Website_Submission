@@ -34,7 +34,7 @@ A clean, modern **Health Wellness Tracker** built with vanilla HTML, CSS, and Ja
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/VanshSharma07/WEAL-Wellness-Tracker.git
+   git clone https://github.com/VanshSharmaPES/WEAL-Wellness-Tracker.git
    ```
 2. Open `index.html` in any browser — that's it!
 
